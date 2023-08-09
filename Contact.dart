@@ -3,12 +3,12 @@ import 'Phone.dart';
 class Contact {
   String _firstName;
   String? _lastName;
-  int _id;
+  int? _id;
   List<Phone> _phones;
   List<int> _groups;
 
   Contact(
-      {required int id,
+      {int? id,
       required String firstName,
       String? lastName,
       required List<Phone> phones,
@@ -27,7 +27,8 @@ class Contact {
 
   String get firstName => _firstName;
   String? get lastName => _lastName;
-  int get id => _id;
+  int? get id => _id;
+  
   List<Phone> get phones => _phones;
   List<int> get groups => _groups;
 

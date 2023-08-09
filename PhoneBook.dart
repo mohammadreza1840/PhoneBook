@@ -4,10 +4,14 @@ import 'Group.dart';
 class PhoneBook {
   List<Group> _groups;
   List<Contact> _contacts;
-
+  static int lastContactID = 0;
   PhoneBook({List<Group>? groups, List<Contact>? contacts})
       : _groups = groups ?? [],
-        _contacts = contacts ?? [];
+        _contacts = contacts ?? [] {
+    _contacts.length > 0
+        ? lastContactID = _contacts[_contacts.length - 1].id!
+        : lastContactID = 0;
+  }
 
   set groups(List<Group>? groups) => _groups = groups ?? [];
   set contacts(List<Contact>? contacts) => _contacts = contacts ?? [];
@@ -17,7 +21,13 @@ class PhoneBook {
 
   //Contact Methodes
   bool addContact(Contact newContact) {
-    if (_contacts.any((element) => element == newContact)) {
+    lastContactID++;
+    Contact s = Contact(
+      id: lastContactID,
+        firstName: newContact.firstName,
+        lastName: newContact.lastName,
+        phones: newContact.phones);
+    if (_contacts.any((element) => element == s)) {
       return false;
     }
     _contacts.add(newContact);
