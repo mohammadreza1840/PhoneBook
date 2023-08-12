@@ -1,10 +1,12 @@
 import 'Contact.dart';
 import 'Group.dart';
+import 'Phone.dart';
 
 class PhoneBook {
   List<Group> _groups;
   List<Contact> _contacts;
   static int lastContactID = 0;
+
   PhoneBook({List<Group>? groups, List<Contact>? contacts})
       : _groups = groups ?? [],
         _contacts = contacts ?? [] {
@@ -20,26 +22,35 @@ class PhoneBook {
   List<Contact> get contacts => _contacts;
 
   //Contact Methodes
-  bool addContact(Contact newContact) {
+  bool addContact(String firstName, String lastName, List<Phone> phones) {
     lastContactID++;
-    Contact s = Contact(
-      id: lastContactID,
-        firstName: newContact.firstName,
-        lastName: newContact.lastName,
-        phones: newContact.phones);
-    if (_contacts.any((element) => element == s)) {
+    Contact newContact = Contact(
+        id: lastContactID,
+        firstName: firstName,
+        lastName: lastName,
+        phones: phones);
+    if (_contacts.any((element) => element == newContact)) {
       return false;
     }
     _contacts.add(newContact);
     return true;
   }
 
-  bool editContact(int oldContactID, Contact newContact) {
+  bool editContact(int oldContactID, String? firstName, String? lastName,
+      List<Phone>? phones) {
     int index = _contacts.indexWhere((element) => element.id == oldContactID);
     if (index == -1) {
       return false;
     }
-    _contacts[index] = newContact;
+    if (firstName != null) {
+      _contacts[index].firstName = firstName;
+    }
+    if (lastName != null) {
+      _contacts[index].lastName = lastName;
+    }
+    if (phones != null) {
+      _contacts[index].phones = phones;
+    }
     return true;
     // if (!_contacts.any((element) => element.id == oldContactID)) {
     //   return false;
@@ -69,6 +80,10 @@ class PhoneBook {
             element.lastName!.contains(input) ||
             element.phones.any((element) => element.phone.contains(input)))
         .toList();
+  }
+
+  Contact getWithID(int id) {
+    return _contacts.firstWhere((element) => element.id == id);
   }
 
   //Group Methodes
